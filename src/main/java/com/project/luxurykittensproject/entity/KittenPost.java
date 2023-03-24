@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class KittenPost extends BaseEntity {
     @Enumerated
     private Breed breed;
 
-    private String dob;
+    private LocalDate dob;
     private String color;
 
     @Enumerated
@@ -53,6 +54,9 @@ public class KittenPost extends BaseEntity {
     @Column(name = "flagged")
     private boolean flagged;
 
+    @Column(name = "approved")
+    private boolean approved;
+
     //to upload images of kittens and store url addresses of the images
     @ElementCollection
     private List<String> images;
@@ -70,7 +74,7 @@ public class KittenPost extends BaseEntity {
     }
 
     // Constructor without ID and User and videoUrl
-    public KittenPost(Breed breed, String dob, String color, Gender gender, KittenStatus status, String description, int price, List<String> images) {
+    public KittenPost(Breed breed, LocalDate dob, String color, Gender gender, KittenStatus status, String description, int price, List<String> images, boolean approved) {
         this.breed = breed;
         this.dob = dob;
         this.color = color;
@@ -80,11 +84,12 @@ public class KittenPost extends BaseEntity {
         this.price = price;
         this.images = images;
         this.createdAt = LocalDateTime.now();
+        this.approved = approved;
     }
 
     //Constructor without ID and User
 
-    public KittenPost(Breed breed, String dob, String color, Gender gender, KittenStatus status, String description, int price, List<String> images, String videoUrl) {
+    public KittenPost(Breed breed, LocalDate dob, String color, Gender gender, KittenStatus status, String description, int price, List<String> images, String videoUrl,boolean approved ) {
         this.breed = breed;
         this.dob = dob;
         this.color = color;
@@ -95,5 +100,6 @@ public class KittenPost extends BaseEntity {
         this.images = images;
         this.videoUrl = videoUrl;
         this.createdAt = LocalDateTime.now();
+        this.approved = approved;
     }
 }
