@@ -26,5 +26,4 @@ public class Role extends BaseEntity{
     @JoinColumn(name = "breeder_id")
     public static final Role BREEDER = new Role("breeder");
 
-
 }
