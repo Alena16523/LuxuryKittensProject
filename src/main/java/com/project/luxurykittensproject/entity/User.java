@@ -3,7 +3,9 @@ package com.project.luxurykittensproject.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +24,13 @@ public class User {
     private String email;
     private int phoneNumber;
     private String registrationTicaId;
+    private String password;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<KittenPost> kittenSalePosts;
@@ -29,11 +38,23 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Meeting> meetings;
 
-    public User(String firstName, String lastName, String email, int phoneNumber, String registrationTicaId) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    //The fetch attribute is set to EAGER to ensure that the roles are always
+    // loaded when the user is loaded from the database.
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    public User(String firstName, String lastName, String email, int phoneNumber, String registrationTicaId, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.registrationTicaId = registrationTicaId;
+        this.password = password;
+        this.roles = roles;
+        this.createdAt = LocalDateTime.now();
     }
 }

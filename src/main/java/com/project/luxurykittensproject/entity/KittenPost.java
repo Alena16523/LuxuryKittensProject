@@ -1,8 +1,10 @@
 package com.project.luxurykittensproject.entity;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.project.luxurykittensproject.enums.Breed;
 import com.project.luxurykittensproject.enums.Gender;
 import com.project.luxurykittensproject.enums.KittenStatus;
+import com.project.luxurykittensproject.enums.States;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,11 +20,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class KittenPost {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class KittenPost extends BaseEntity {
 
     @Enumerated
     private Breed breed;
@@ -38,9 +37,21 @@ public class KittenPost {
     private String description;
     private int price;
 
+    @Enumerated
+    private States states;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "flagged")
+    private boolean flagged;
 
     //to upload images of kittens and store url addresses of the images
     @ElementCollection
@@ -49,6 +60,14 @@ public class KittenPost {
     //to add video for the kitten
     @URL  // to make sure that url is valid (hibernate validation library)
     private String videoUrl;
+
+    public boolean isFlagged() {
+        return flagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
 
     // Constructor without ID and User and videoUrl
     public KittenPost(Breed breed, String dob, String color, Gender gender, KittenStatus status, String description, int price, List<String> images) {
@@ -60,6 +79,7 @@ public class KittenPost {
         this.description = description;
         this.price = price;
         this.images = images;
+        this.createdAt = LocalDateTime.now();
     }
 
     //Constructor without ID and User
@@ -74,5 +94,6 @@ public class KittenPost {
         this.price = price;
         this.images = images;
         this.videoUrl = videoUrl;
+        this.createdAt = LocalDateTime.now();
     }
 }
