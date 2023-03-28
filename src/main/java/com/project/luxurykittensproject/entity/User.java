@@ -13,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = {"kittenSalePosts", "meetings"})
+@Table(name = "users")
 public class User {
 
     @Id
@@ -22,7 +23,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private int phoneNumber;
+    private Long phoneNumber;
     private String registrationTicaId;
     private String password;
 
@@ -50,7 +51,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String firstName, String lastName, String email, int phoneNumber, String registrationTicaId, String password, Set<Role> roles, boolean approved) {
+    public User(String firstName, String lastName, String email, Long phoneNumber, String registrationTicaId, String password, Set<Role> roles, boolean approved) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -61,4 +62,6 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.approved = approved;
     }
+
+
 }

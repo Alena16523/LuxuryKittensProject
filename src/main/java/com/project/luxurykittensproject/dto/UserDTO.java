@@ -23,7 +23,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private int phoneNumber;
+    private Long phoneNumber;
 
     //will act like user name
     private String registrationTicaId;
@@ -39,7 +39,7 @@ public class UserDTO {
 
     private AddressDTO addressDTO;
 
-    public UserDTO(String firstName, String lastName, String email, int phoneNumber, String registrationTicaId, String password, Set<RoleDTO> roles, AddressDTO addressDTO) {
+    public UserDTO(String firstName, String lastName, String email, Long phoneNumber, String registrationTicaId, String password, Set<RoleDTO> roles, AddressDTO addressDTO) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

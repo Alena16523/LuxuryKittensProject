@@ -23,22 +23,22 @@ import java.util.List;
 @AllArgsConstructor
 public class KittenPost extends BaseEntity {
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Breed breed;
 
     private LocalDate dob;
     private String color;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private KittenStatus status;
 
     private String description;
     private int price;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private States states;
 
     @Column(name = "created_at")
@@ -59,6 +59,7 @@ public class KittenPost extends BaseEntity {
 
     //to upload images of kittens and store url addresses of the images
     @ElementCollection
+    @Column(name = "images")
     private List<String> images;
 
     //to add video for the kitten
